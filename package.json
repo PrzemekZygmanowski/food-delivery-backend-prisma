@@ -1,0 +1,26 @@
+{
+  "name": "backend-knex",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/main.js",
+    "query:restaurants": "node test-queries/restaurants.query.js",
+    "query:orders": "node test-queries/orders.query.js",
+    "query:orders-info": "node test-queries/orders-complete-info-query.js",
+    "mutation:remove-restaurant": "node test-queries/remove-restaurant.mutation.js",
+    "migrate": "knex migrate:latest",
+    "rollback": "knex migrate:rollback",
+    "seed": "knex seed:run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "knex": "^2.3.0",
+    "mysql": "^2.18.1",
+    "sqlite3": "^5.1.1"
+  }
+}
