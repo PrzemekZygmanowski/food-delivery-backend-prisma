@@ -10,7 +10,7 @@ export default {
     client: 'sqlite3',
     useNullAsDefault: true,
     connection: {
-      filename: './src/database/knex-dev-base.sqlite3',
+      filename: './src/database/objection-dev-base.sqlite3',
     },
     migrations: {
       directory: './src/database/migrations',
