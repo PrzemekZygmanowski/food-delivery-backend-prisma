@@ -1,13 +1,10 @@
-import { knex } from '../src/database/connection.js';
-import { Restaurant } from '../src/models/Restaurant.js';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 try {
-  const result = await Restaurant.query()
-    .findById(2)
-    .throwIfNotFound({ message: 'Restaurant not found' })
-    .del();
+  const result = await prisma.restaurant.delete({ where: { id: 2 } });
   console.log(result);
 } catch (error) {
   console.error(`there is error: ${error}`);
 }
 
-await knex.destroy();
+await prisma.$disconnect();

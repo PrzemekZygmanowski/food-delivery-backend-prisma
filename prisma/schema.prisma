@@ -1,0 +1,78 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  password  String
+  orders Order[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+model Restaurant {
+  id    Int     @id @default(autoincrement())
+  name String
+  address String
+  type String?
+  order Order[]
+  product Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+model Order {
+  id    Int     @id @default(autoincrement())
+  date DateTime @default(now())
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  delivery Delivery?
+  restaurantId Int
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  products OrderOfProduct[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+model Product {
+  id    Int     @id @default(autoincrement())
+  name String
+  price Float
+  description String?
+  restaurantId Int
+  restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+    orders OrderOfProduct[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+model OrderOfProduct {
+  id    Int     @id @default(autoincrement())
+  price Float
+  orderId Int
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productId Int
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  assigneddAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Delivery {
+  id    Int     @id @default(autoincrement())
+  deliveryDate DateTime?
+  status String @default("IN_PROGRESS")
+  address String
+  orderId Int   @unique
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}

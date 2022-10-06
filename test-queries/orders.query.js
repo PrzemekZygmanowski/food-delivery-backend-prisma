@@ -1,14 +1,7 @@
-import { knex } from '../src/database/connection.js';
-import { Order } from '../src/models/Order.js';
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 
-const orders = await Order.query().withGraphFetched('user');
-// const orders = await Order.query()
-//   .withGraphFetched('user(withEmailOnly')
-//   .modifiers({
-//     withEmailOnly: (builder) => {
-//       builder.select('email');
-//     },
-//   });
+const orders = await prisma.order.findMany({});
 
-await knex.destroy();
+await prisma.$disconnect();
 console.log(orders);
